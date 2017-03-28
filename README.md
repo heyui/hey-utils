@@ -19,8 +19,11 @@
 用一个或多个其他对象来扩展一个对象，返回被扩展的对象。  
 如果第一个参数设置为true，则返回一个深层次的副本，递归地复制找到的任何对象。  
 否则的话，副本会与原对象共享结构。 未定义的属性将不会被复制，然而从对象的原型继承的属性将会被复制。  
-例：<code>Utils.extend({},{a:1},{b:2});</code>
+
 ```js
+
+Utils.extend({},{a:1},{b:2});
+//结果
 {
   a:1,
   b:2
@@ -49,8 +52,8 @@ Object.assign的深度实现
 ## toArray, toObject
 
 ### toArray
-将object转换成array. 
-<code>toArray(object,keyName,valueName)</code> 
+将object转换成array.   
+<code>toArray(object,keyName,valueName)</code>   
 例：  
 ```js
   Utils.toArray({a:1,b:1},'key','value');
@@ -65,15 +68,15 @@ Object.assign的深度实现
   }]
 
 
-  Utils.toArray({a:{b:2,d:4},b:{c:2,e:5}},'key');
+  Utils.toArray({a:{b:2,d:4},b:{c:2,e:5}},'id');
 
   //结果
   [{
-    key:'a',
+    id:'a',
     b:2,
     d:4
   },{
-    key:'b',
+    id:'b',
     c:2,
     e:5
   }]
