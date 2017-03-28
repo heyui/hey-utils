@@ -1,7 +1,7 @@
 {
     "name": "hey-utils",
     "version": "0.0.1",
-    "description": "公用方法",
+    "description": "js-utils, js, util",
     "main": "build/utils.js",
     "repository": {
         "type": "git",
