@@ -79,7 +79,7 @@
       }
       return target;
     },
-    deepFreeze(obj) {
+    freeze(obj) {
       const that = this;
       Object.freeze(obj);
       Object.keys(obj).forEach((key, value) => {
@@ -89,7 +89,7 @@
       });
       return obj;
     },
-    deepCopy(data) {
+    copy(data) {
       let copyOne = null;
       if (this.isObject(data)) {
         copyOne = {};

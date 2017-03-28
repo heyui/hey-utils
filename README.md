@@ -30,15 +30,15 @@ Utils.extend({},{a:1},{b:2});
 }
 ```
 
-### deepFreeze
+### freeze
 深度冻结对象
 Object.freeze的深度实现
 例：<code>Utils.freeze({a:1});</code>
 
-### deepCopy
+### copy
 深度拷贝对象  
 Object.assign的深度实现
-例：<code>Utils.assign({a:1});</code>
+例：<code>Utils.copy({a:1});</code>
 
 ### valueForKeypath
 获取深度path的对象值

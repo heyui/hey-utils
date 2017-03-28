@@ -87,7 +87,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
       return target;
     },
-    deepFreeze: function deepFreeze(obj) {
+    freeze: function freeze(obj) {
       var _this = this;
 
       var that = this;
@@ -99,7 +99,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       });
       return obj;
     },
-    deepCopy: function deepCopy(data) {
+    copy: function copy(data) {
       var copyOne = null;
       if (this.isObject(data)) {
         copyOne = {};
