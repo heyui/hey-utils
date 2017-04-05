@@ -1,35 +1,35 @@
-(function(global, factory) {
+(function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
     typeof define === 'function' && define.amd ? define(factory) :
     global.heyUtils = factory();
-}((typeof window == 'object' ? window : typeof global == 'object' ? global : this), function() {
+}((typeof window == 'object' ? window : typeof global == 'object' ? global : this), function () {
   "use strict";
   const heyUtils = {
-    isObject: function(input) {
+    isObject: function (input) {
       return Object.prototype.toString.call(input) === '[object Object]';
     },
-    isArray: function(input) {
+    isArray: function (input) {
       return input instanceof Array || Object.prototype.toString.call(input) === '[object Array]';
     },
-    isDate: function(input) {
+    isDate: function (input) {
       return input instanceof Date || Object.prototype.toString.call(input) === '[object Date]';
     },
-    isNumber: function(input) {
+    isNumber: function (input) {
       return input instanceof Number || Object.prototype.toString.call(input) === '[object Number]';
     },
-    isString: function(input) {
+    isString: function (input) {
       return input instanceof String || Object.prototype.toString.call(input) === '[object String]';
     },
-    isBoolean: function(input) {
+    isBoolean: function (input) {
       return typeof input == 'boolean';
     },
-    isFunction: function(input) {
+    isFunction: function (input) {
       return typeof input == 'function';
     },
-    isNull: function(input) {
+    isNull: function (input) {
       return input === undefined || input === null;
     },
-    isPlainObject: function(obj) {
+    isPlainObject: function (obj) {
       if (obj && Object.prototype.toString.call(obj) === "[object Object]" && obj.constructor === Object && !hasOwnProperty.call(obj, "constructor")) {
         var key;
         for (key in obj) {}
@@ -37,7 +37,7 @@
       }
       return false;
     },
-    extend: function() {
+    extend: function () {
       var options, name, src, copy, copyIsArray, clone,
         target = arguments[0] || {},
         i = 1,
@@ -184,6 +184,102 @@
         }
       }
       return listO;
+    },
+    saveLocal(name, value) {
+      if (window.localStorage && JSON && name && value) {
+        if (typeof value == 'object') {
+          value = JSON.stringify(value);
+        }
+        window.localStorage[name] = value;
+        return true;
+      }
+      return false;
+    },
+    getLocal(name, type) {
+      if (window.localStorage && JSON && name) {
+        const data = window.localStorage[name];
+        if (type && type == 'json' && data !== undefined) {
+          try {
+            return JSON.parse(data);
+          } catch (e) {
+            console.error(`取数转换json错误${e}`);
+            return '';
+          }
+        } else {
+          return data;
+        }
+      }
+      return null;
+    },
+    getLocal2Json(name) {
+      if (window.localStorage && JSON && name) {
+        const data = window.localStorage[name];
+        if (!this.isNull(data)) {
+          try {
+            return JSON.parse(data);
+          } catch (e) {
+            console.error(`取数转换json错误${e}`);
+            return '';
+          }
+        } else {
+          return data;
+        }
+      }
+      return null;
+    },
+    removeLocal(name) {
+      if (window.localStorage && JSON && name) {
+        window.localStorage[name] = null;
+      }
+      return null;
+    },
+    saveCookie(name, value, minSec, path) {
+      const cookieEnabled = (navigator.cookieEnabled) ? true : false;
+      if (name && cookieEnabled) {
+        path = path || '/';
+        if (typeof value == 'object') {
+          value = JSON.stringify(value);
+        }
+        let exp;
+        if (minSec) {
+          exp = new Date(); // new Date("December 31, 9998");
+          exp.setTime(exp.getTime() + minSec * 1000);
+        }
+
+        document.cookie = `${name}=${escape(value)}${minSec?(`;expires=${exp.toGMTString()}`) : ''};path=${path}`;
+        return true;
+      }
+      return false;
+    },
+    getCookie(name) {
+      const cookieEnabled = (navigator.cookieEnabled) ? true : false;
+      if (name && cookieEnabled) {
+        const arr = document.cookie.match(new RegExp(`(^| )${name}=([^;]*)(;|$)`));
+        if (arr !== null) {
+          return unescape(arr[2]);
+        }
+      }
+      return null;
+    },
+    clearCookie() {
+      const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+      if (keys) {
+        for (let i = keys.length; i--;) {
+          document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+        }
+      }
+    },
+    removeCookie(name, path) {
+      const cookieEnabled = (navigator.cookieEnabled) ? true : false;
+      if (name && cookieEnabled) {
+        const exp = new Date();
+        path = path || '/';
+        exp.setTime(exp.getTime() - 1);
+        const cval = this.getCookie(name);
+        if (cval !== null) document.cookie = `${name}=${cval};expires=${exp.toGMTString()};path=${path}`;
+        return true;
+      }
+      return false;
     },
   }
   return heyUtils;

@@ -218,6 +218,102 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
       }
       return listO;
+    },
+    saveLocal: function saveLocal(name, value) {
+      if (window.localStorage && JSON && name && value) {
+        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
+          value = JSON.stringify(value);
+        }
+        window.localStorage[name] = value;
+        return true;
+      }
+      return false;
+    },
+    getLocal: function getLocal(name, type) {
+      if (window.localStorage && JSON && name) {
+        var data = window.localStorage[name];
+        if (type && type == 'json' && data !== undefined) {
+          try {
+            return JSON.parse(data);
+          } catch (e) {
+            console.error('取数转换json错误' + e);
+            return '';
+          }
+        } else {
+          return data;
+        }
+      }
+      return null;
+    },
+    getLocal2Json: function getLocal2Json(name) {
+      if (window.localStorage && JSON && name) {
+        var data = window.localStorage[name];
+        if (!this.isNull(data)) {
+          try {
+            return JSON.parse(data);
+          } catch (e) {
+            console.error('取数转换json错误' + e);
+            return '';
+          }
+        } else {
+          return data;
+        }
+      }
+      return null;
+    },
+    removeLocal: function removeLocal(name) {
+      if (window.localStorage && JSON && name) {
+        window.localStorage[name] = null;
+      }
+      return null;
+    },
+    saveCookie: function saveCookie(name, value, minSec, path) {
+      var cookieEnabled = navigator.cookieEnabled ? true : false;
+      if (name && cookieEnabled) {
+        path = path || '/';
+        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
+          value = JSON.stringify(value);
+        }
+        var exp = undefined;
+        if (minSec) {
+          exp = new Date(); // new Date("December 31, 9998");
+          exp.setTime(exp.getTime() + minSec * 1000);
+        }
+
+        document.cookie = name + '=' + escape(value) + (minSec ? ';expires=' + exp.toGMTString() : '') + ';path=' + path;
+        return true;
+      }
+      return false;
+    },
+    getCookie: function getCookie(name) {
+      var cookieEnabled = navigator.cookieEnabled ? true : false;
+      if (name && cookieEnabled) {
+        var arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
+        if (arr !== null) {
+          return unescape(arr[2]);
+        }
+      }
+      return null;
+    },
+    clearCookie: function clearCookie() {
+      var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+      if (keys) {
+        for (var i = keys.length; i--;) {
+          document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString();
+        }
+      }
+    },
+    removeCookie: function removeCookie(name, path) {
+      var cookieEnabled = navigator.cookieEnabled ? true : false;
+      if (name && cookieEnabled) {
+        var exp = new Date();
+        path = path || '/';
+        exp.setTime(exp.getTime() - 1);
+        var cval = this.getCookie(name);
+        if (cval !== null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString() + ';path=' + path;
+        return true;
+      }
+      return false;
     }
   };
   return heyUtils;

@@ -119,4 +119,26 @@ Object.assign的深度实现
   }
 ```
 
+### saveLocal(name, value)
+保存本地localStorage
 
+### getLocal(name,type)
+获取本地localStorage，如果type=='json'，这转换出json对象。
+
+### getLocal2Json(name)
+获取本地localStorage，并转换出json对象。
+
+### removeLocal(name)
+删除本地localStorage。
+
+### saveCookie(name, value, minSec, path)
+保存本地cookie，path默认为/，minSec默认无限
+
+### getCookie(name)
+保存获取cookie
+
+### clearCookie()
+清除所有cookie
+
+### removeCookie(name, path)
+删除cookie，path默认为/
