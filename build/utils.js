@@ -103,8 +103,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var copyOne = null;
       if (this.isObject(data)) {
         copyOne = {};
-        for (var _key in data) {
-          copyOne[_key] = this.deepCopy(data[_key]);
+        for (var key in data) {
+          copyOne[key] = this.deepCopy(data[key]);
         }
       } else if (this.isArray(data)) {
         copyOne = [];
@@ -196,14 +196,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         } else {
           n[titleName] = value;
         }
-        if (keyName) n[keyName] = key;
+        if (keyName) n[keyName] = i;
         list.push(n);
       }
       return listO;
     },
     toObject: function toObject(list) {
-      var idName = arguments.length <= 1 || arguments[1] === undefined ? 'id' : arguments[1];
-      var hasNum = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
+      var idName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
+      var hasNum = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
       var listO = {};
       for (var i = 0; i < list.length; i++) {
