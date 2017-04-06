@@ -197,7 +197,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           n[titleName] = value;
         }
         if (keyName) n[keyName] = i;
-        list.push(n);
+        listO.push(n);
       }
       return listO;
     },
@@ -208,13 +208,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       var listO = {};
       for (var i = 0; i < list.length; i++) {
         var n = list[i];
-        if (idName == 'count') {
-          listO[i] = n;
-        } else {
-          listO[n[idName]] = n;
-          if (hasNum) {
-            listO[n[idName]].count = i;
+        if (this.isObject(n)) {
+          if (idName == 'count') {
+            listO[i] = n;
+          } else {
+            listO[n[idName]] = n;
+            if (hasNum) {
+              listO[n[idName]].count = i;
+            }
           }
+        } else {
+          listO[n] = n;
         }
       }
       return listO;

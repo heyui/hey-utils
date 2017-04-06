@@ -87,6 +87,15 @@ Object.assign的深度实现
 将array转换成object.  
 例：  
 ```js
+  Utils.toObject(['a','b','c']);
+
+  //结果
+  {
+    a:'a',
+    b:'b',
+    c:'c'
+  }
+
   Utils.toObject([{id:'a',b:2},{id:'b',b:2}],'id');
 
   //结果

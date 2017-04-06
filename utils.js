@@ -166,7 +166,7 @@
                 n[titleName] = value;
               }
               if (keyName) n[keyName] = i;
-              list.push(n);
+              listO.push(n);
             }
             return listO;
           },
@@ -174,13 +174,17 @@
             const listO = {};
             for (var i = 0; i < list.length; i++) {
               const n = list[i];
-              if (idName == 'count') {
-                listO[i] = n;
-              } else {
-                listO[n[idName]] = n;
-                if (hasNum) {
-                  listO[n[idName]].count = i;
+              if (this.isObject(n)) {
+                if (idName == 'count') {
+                  listO[i] = n;
+                } else {
+                  listO[n[idName]] = n;
+                  if (hasNum) {
+                    listO[n[idName]].count = i;
+                  }
                 }
+              } else {
+                listO[n] = n;
               }
             }
             return listO;
