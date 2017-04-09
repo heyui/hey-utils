@@ -138,46 +138,72 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return copyOne;
     },
     valueForKeypath: function valueForKeypath(obj, keypath) {
-      var array = null;
-      if (this.isArray(keypath)) {
-        array = keypath;
-      } else if (this.isString(keypath)) {
-        array = keypath.split('.');
-      }
-      if (array === null) {
+      if (!this.isObject(obj)) {
         return null;
       }
-      if (array.length > 1) {
-        var first = array.shift();
-
-        if (!obj[first] || _typeof(obj[first]) !== 'object') {
-          return null;
-        }
-        return this.valueForKeypath(obj[first], array);
-      }
-      return obj[array[0]];
-    },
-    setValueForKeypath: function setValueForKeypath(obj, keypath, value) {
       var array = null;
       if (this.isArray(keypath)) {
         array = keypath;
       } else if (this.isString(keypath)) {
         array = keypath.split('.');
       }
-      if (array === null) {
-        return false;
+      if (array == null || array.length == 0) {
+        return null;
       }
-      if (array.length > 1) {
-        var first = array.shift();
-
-        if (!obj[first] || _typeof(obj[first]) !== 'object') {
-          obj[first] = {};
+      var value = null;
+      var key = array.shift();
+      var keyTest = key.match(new RegExp("^(\\w+)\\[(\\d+)\\]$"));
+      if (keyTest) {
+        key = keyTest[1];
+        var index = keyTest[2];
+        value = obj[key];
+        if (this.isArray(value) && value.length > index) {
+          value = value[index];
         }
-        this.setValueForKeypath(obj[first], array, value);
+      } else {
+        value = obj[key];
+      }
+
+      if (array.length > 0) {
+        return this.valueForKeypath(value, array);
+      }
+      return value;
+    },
+    setValueForKeypath: function setValueForKeypath(obj, keypath, value, orignal) {
+      if (!this.isObject(obj)) {
         return false;
       }
-      obj[array[0]] = value;
-      return true;
+      var array = null;
+      if (this.isArray(keypath)) {
+        array = keypath;
+      } else if (this.isString(keypath)) {
+        array = keypath.split('.');
+        orignal = obj;
+      }
+      if (array == null || array.length == 0) {
+        return false;
+      }
+      var children = null;
+      var index = 0;
+      var key = array.shift();
+      var keyTest = key.match(new RegExp("^(\\w+)\\[(\\d+)\\]$"));
+      if (keyTest) {
+        key = keyTest[1];
+        index = keyTest[2];
+        children = obj[key];
+        if (this.isArray(children) && children.length > index) {
+          if (array.length > 0) {
+            return this.setValueForKeypath(children[index], array, value, orignal);
+          }
+          children[index] = value;
+        }
+      } else {
+        if (array.length > 0) {
+          return this.setValueForKeypath(obj[key], array, value, orignal);
+        }
+        obj[key] = value;
+      }
+      return orignal;
     },
     toArray: function toArray(object, keyName, arg3) {
       var titleName = '';

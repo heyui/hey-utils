@@ -107,46 +107,72 @@
             return copyOne;
           },
           valueForKeypath(obj, keypath) {
-            let array = null;
-            if (this.isArray(keypath)) {
-              array = keypath;
-            } else if (this.isString(keypath)) {
-              array = keypath.split('.');
-            }
-            if (array === null) {
+            if (!this.isObject(obj)) {
               return null;
             }
-            if (array.length > 1) {
-              const first = array.shift();
-
-              if (!obj[first] || typeof obj[first] !== 'object') {
-                return null;
-              }
-              return this.valueForKeypath(obj[first], array)
-            }
-            return obj[array[0]];
-          },
-          setValueForKeypath(obj, keypath, value) {
             let array = null;
             if (this.isArray(keypath)) {
               array = keypath;
             } else if (this.isString(keypath)) {
               array = keypath.split('.');
             }
-            if (array === null) {
-              return false;
+            if (array == null || array.length == 0) {
+              return null;
             }
-            if (array.length > 1) {
-              const first = array.shift();
-
-              if (!obj[first] || typeof obj[first] !== 'object') {
-                obj[first] = {};
+            let value = null;
+            let key = array.shift();
+            const keyTest = key.match(new RegExp("^(\\w+)\\[(\\d+)\\]$"));
+            if (keyTest) {
+              key = keyTest[1];
+              let index = keyTest[2];
+              value = obj[key];
+              if (this.isArray(value) && value.length > index) {
+                value = value[index];
               }
-              this.setValueForKeypath(obj[first], array, value);
+            } else {
+              value = obj[key];
+            }
+
+            if (array.length > 0) {
+              return this.valueForKeypath(value, array)
+            }
+            return value;
+          },
+          setValueForKeypath(obj, keypath, value, orignal) {
+            if (!this.isObject(obj)) {
               return false;
             }
-            obj[array[0]] = value;
-            return true;
+            let array = null;
+            if (this.isArray(keypath)) {
+              array = keypath;
+            } else if (this.isString(keypath)) {
+              array = keypath.split('.');
+              orignal = obj;
+            }
+            if (array == null || array.length == 0) {
+              return false;
+            }
+            let children = null;
+            let index = 0;
+            let key = array.shift();
+            const keyTest = key.match(new RegExp("^(\\w+)\\[(\\d+)\\]$"));
+            if (keyTest) {
+              key = keyTest[1];
+              index = keyTest[2];
+              children = obj[key];
+              if (this.isArray(children) && children.length > index) {
+                if (array.length > 0) {
+                  return this.setValueForKeypath(children[index], array, value, orignal);
+                }
+                children[index] = value;
+              }
+            } else {
+              if (array.length > 0) {
+                return this.setValueForKeypath(obj[key], array, value, orignal);
+              }
+              obj[key] = value;
+            }
+            return orignal;
           },
           toArray(object, keyName, arg3) {
             let titleName = '';
