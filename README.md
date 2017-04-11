@@ -22,7 +22,7 @@
 
 ```js
 
-Utils.extend({},{a:1},{b:2});
+utils.extend({},{a:1},{b:2});
 //结果
 {
   a:1,
@@ -33,21 +33,30 @@ Utils.extend({},{a:1},{b:2});
 ### freeze
 深度冻结对象
 Object.freeze的深度实现
-例：<code>Utils.freeze({a:1});</code>
+例：<code>utils.freeze({a:1});</code>
 
 ### copy
 深度拷贝对象  
 Object.assign的深度实现
-例：<code>Utils.copy({a:1});</code>
+例：<code>utils.copy({a:1});</code>
 
 ### valueForKeypath
 获取深度path的对象值
-例：<code>Utils.valueForKeypath(obj,'a.b.c.d');</code>
+```js
+  utils.valueForKeypath({id:{v:'a'},b:2},"id.v");
+  //'a'
+  utils.valueForKeypath({id:{v:['a','b']},b:2},"id.v[1]");
+  //'b'
+```
 
 ### setValueForKeypath
 对深度path的对象赋值
-例：<code>Utils.setValueForKeypath(obj,'a.b.c.d',1);</code>
-
+```js
+  utils.setValueForKeypath({id:{v:1},b:2}, 'id.v', 2);
+  //{id:{v:2},b:2}
+  utils.setValueForKeypath({id:{v:['a','b']},b:2}, "id.v[1]", 'c');
+  //{id:{v:['a','c']},b:2}
+```
 
 ## toArray, toObject
 
@@ -56,7 +65,7 @@ Object.assign的深度实现
 <code>toArray(object,keyName,valueName)</code>   
 例：  
 ```js
-  Utils.toArray({a:1,b:1},'key','value');
+  utils.toArray({a:1,b:1},'key','value');
 
   //结果
   [{
@@ -68,7 +77,7 @@ Object.assign的深度实现
   }]
 
 
-  Utils.toArray({a:{b:2,d:4},b:{c:2,e:5}},'id');
+  utils.toArray({a:{b:2,d:4},b:{c:2,e:5}},'id');
 
   //结果
   [{
@@ -87,7 +96,7 @@ Object.assign的深度实现
 将array转换成object.  
 例：  
 ```js
-  Utils.toObject(['a','b','c']);
+  utils.toObject(['a','b','c']);
 
   //结果
   {
@@ -96,7 +105,7 @@ Object.assign的深度实现
     c:'c'
   }
 
-  Utils.toObject([{id:'a',b:2},{id:'b',b:2}],'id');
+  utils.toObject([{id:'a',b:2},{id:'b',b:2}],'id');
 
   //结果
   {
@@ -111,7 +120,7 @@ Object.assign的深度实现
   }
 
 
-  Utils.toObject([{id:'a',b:2},{id:'b',b:2}],'id',true);
+  utils.toObject([{id:'a',b:2},{id:'b',b:2}],'id',true);
 
   //结果
   {
@@ -151,3 +160,6 @@ Object.assign的深度实现
 
 ### removeCookie(name, path)
 删除cookie，path默认为/
+
+## uuid()
+生成唯一值
