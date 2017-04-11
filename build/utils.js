@@ -344,6 +344,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return true;
       }
       return false;
+    },
+    uuid: function uuid() {
+      var s4 = function s4() {
+        return Math.floor((1 + Math.random) * 0x10000).toString(16).substring(1);
+      };
+      return s4 + s4 + '-' + s4 + '-' + s4 + '-' + s4 + '-' + s4 + s4 + s4;
     }
   };
   return heyUtils;
