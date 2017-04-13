@@ -84,7 +84,7 @@
             Object.freeze(obj);
             Object.keys(obj).forEach((key, value) => {
               if (that.isObject(obj[key])) {
-                this.deepFreeze(obj[key]);
+                this.freeze(obj[key]);
               }
             });
             return obj;
@@ -94,12 +94,12 @@
             if (this.isObject(data)) {
               copyOne = {};
               for (const key in data) {
-                copyOne[key] = this.deepCopy(data[key]);
+                copyOne[key] = this.copy(data[key]);
               }
             } else if (this.isArray(data)) {
               copyOne = [];
               for (const index of data) {
-                copyOne.push(this.deepCopy(index));
+                copyOne.push(this.copy(index));
               }
             } else {
               copyOne = data;
@@ -313,7 +313,7 @@
     },
     uuid() {
       const s4 = ()=>{
-        return Math.floor( ( 1 + Math.random ) * 0x10000 ).toString( 16 ).substring( 1 );
+        return Math.floor(( 1 + Math.random()) * 0x10000).toString(16).substring(1);
       };
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }

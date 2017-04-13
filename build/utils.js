@@ -94,7 +94,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       Object.freeze(obj);
       Object.keys(obj).forEach(function (key, value) {
         if (that.isObject(obj[key])) {
-          _this.deepFreeze(obj[key]);
+          _this.freeze(obj[key]);
         }
       });
       return obj;
@@ -104,7 +104,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       if (this.isObject(data)) {
         copyOne = {};
         for (var key in data) {
-          copyOne[key] = this.deepCopy(data[key]);
+          copyOne[key] = this.copy(data[key]);
         }
       } else if (this.isArray(data)) {
         copyOne = [];
@@ -116,7 +116,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var index = _step.value;
 
-            copyOne.push(this.deepCopy(index));
+            copyOne.push(this.copy(index));
           }
         } catch (err) {
           _didIteratorError = true;
@@ -347,7 +347,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     },
     uuid: function uuid() {
       var s4 = function s4() {
-        return Math.floor((1 + Math.random) * 0x10000).toString(16).substring(1);
+        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
       };
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
