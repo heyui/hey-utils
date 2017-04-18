@@ -2,12 +2,16 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 (function (global, factory) {
   (typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : global.heyUtils = factory();
 })((typeof window === 'undefined' ? 'undefined' : _typeof(window)) == 'object' ? window : (typeof global === 'undefined' ? 'undefined' : _typeof(global)) == 'object' ? global : undefined, function () {
   "use strict";
 
-  var heyUtils = {
+  var _heyUtils;
+
+  var heyUtils = (_heyUtils = {
     isObject: function isObject(input) {
       return Object.prototype.toString.call(input) === '[object Object]';
     },
@@ -137,7 +141,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
       return copyOne;
     },
-    valueForKeypath: function valueForKeypath(obj, keypath) {
+    getKeyValue: function getKeyValue(obj, keypath) {
       if (!this.isObject(obj)) {
         return null;
       }
@@ -168,189 +172,179 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         return this.valueForKeypath(value, array);
       }
       return value;
-    },
-    setValueForKeypath: function setValueForKeypath(obj, keypath, value, orignal) {
-      if (!this.isObject(obj)) {
-        return false;
+    }
+  }, _defineProperty(_heyUtils, 'getKeyValue', function getKeyValue(obj, keypath, value, orignal) {
+    if (!this.isObject(obj)) {
+      return false;
+    }
+    var array = null;
+    if (this.isArray(keypath)) {
+      array = keypath;
+    } else if (this.isString(keypath)) {
+      array = keypath.split('.');
+      orignal = obj;
+    }
+    if (array == null || array.length == 0) {
+      return false;
+    }
+    var children = null;
+    var index = 0;
+    var key = array.shift();
+    var keyTest = key.match(new RegExp("^(\\w+)\\[(\\d+)\\]$"));
+    if (keyTest) {
+      key = keyTest[1];
+      index = keyTest[2];
+      children = obj[key];
+      if (this.isArray(children) && children.length > index) {
+        if (array.length > 0) {
+          return this.setValueForKeypath(children[index], array, value, orignal);
+        }
+        children[index] = value;
       }
-      var array = null;
-      if (this.isArray(keypath)) {
-        array = keypath;
-      } else if (this.isString(keypath)) {
-        array = keypath.split('.');
-        orignal = obj;
+    } else {
+      if (array.length > 0) {
+        return this.setValueForKeypath(obj[key], array, value, orignal);
       }
-      if (array == null || array.length == 0) {
-        return false;
+      obj[key] = value;
+    }
+    return orignal;
+  }), _defineProperty(_heyUtils, 'toArray', function toArray(object, keyName, arg3) {
+    var titleName = '';
+    if (!this.isObject(object)) {
+      return [];
+    }
+    if (this.isString(arg3)) {
+      titleName = arg3;
+    }
+    var listO = [];
+    for (var i in object) {
+      var value = object[i];
+      var n = {};
+      if (this.isObject(value)) {
+        n = value;
+      } else {
+        n[titleName] = value;
       }
-      var children = null;
-      var index = 0;
-      var key = array.shift();
-      var keyTest = key.match(new RegExp("^(\\w+)\\[(\\d+)\\]$"));
-      if (keyTest) {
-        key = keyTest[1];
-        index = keyTest[2];
-        children = obj[key];
-        if (this.isArray(children) && children.length > index) {
-          if (array.length > 0) {
-            return this.setValueForKeypath(children[index], array, value, orignal);
+      if (keyName) n[keyName] = i;
+      listO.push(n);
+    }
+    return listO;
+  }), _defineProperty(_heyUtils, 'toObject', function toObject(list) {
+    var idName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
+    var hasNum = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
+    var listO = {};
+    for (var i = 0; i < list.length; i++) {
+      var n = list[i];
+      if (this.isObject(n)) {
+        if (idName == 'count') {
+          listO[i] = n;
+        } else {
+          listO[n[idName]] = n;
+          if (hasNum) {
+            listO[n[idName]].count = i;
           }
-          children[index] = value;
         }
       } else {
-        if (array.length > 0) {
-          return this.setValueForKeypath(obj[key], array, value, orignal);
-        }
-        obj[key] = value;
+        listO[n] = n;
       }
-      return orignal;
-    },
-    toArray: function toArray(object, keyName, arg3) {
-      var titleName = '';
-      if (!this.isObject(object)) {
-        return [];
-      }
-      if (this.isString(arg3)) {
-        titleName = arg3;
-      }
-      var listO = [];
-      for (var i in object) {
-        var value = object[i];
-        var n = {};
-        if (this.isObject(value)) {
-          n = value;
-        } else {
-          n[titleName] = value;
-        }
-        if (keyName) n[keyName] = i;
-        listO.push(n);
-      }
-      return listO;
-    },
-    toObject: function toObject(list) {
-      var idName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'id';
-      var hasNum = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-
-      var listO = {};
-      for (var i = 0; i < list.length; i++) {
-        var n = list[i];
-        if (this.isObject(n)) {
-          if (idName == 'count') {
-            listO[i] = n;
-          } else {
-            listO[n[idName]] = n;
-            if (hasNum) {
-              listO[n[idName]].count = i;
-            }
-          }
-        } else {
-          listO[n] = n;
-        }
-      }
-      return listO;
-    },
-    saveLocal: function saveLocal(name, value) {
-      if (window.localStorage && JSON && name && value) {
-        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
-          value = JSON.stringify(value);
-        }
-        window.localStorage[name] = value;
-        return true;
-      }
-      return false;
-    },
-    getLocal: function getLocal(name, type) {
-      if (window.localStorage && JSON && name) {
-        var data = window.localStorage[name];
-        if (type && type == 'json' && data !== undefined) {
-          try {
-            return JSON.parse(data);
-          } catch (e) {
-            console.error('取数转换json错误' + e);
-            return '';
-          }
-        } else {
-          return data;
-        }
-      }
-      return null;
-    },
-    getLocal2Json: function getLocal2Json(name) {
-      if (window.localStorage && JSON && name) {
-        var data = window.localStorage[name];
-        if (!this.isNull(data)) {
-          try {
-            return JSON.parse(data);
-          } catch (e) {
-            console.error('取数转换json错误' + e);
-            return '';
-          }
-        } else {
-          return data;
-        }
-      }
-      return null;
-    },
-    removeLocal: function removeLocal(name) {
-      if (window.localStorage && JSON && name) {
-        window.localStorage[name] = null;
-      }
-      return null;
-    },
-    saveCookie: function saveCookie(name, value, minSec, path) {
-      var cookieEnabled = navigator.cookieEnabled ? true : false;
-      if (name && cookieEnabled) {
-        path = path || '/';
-        if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
-          value = JSON.stringify(value);
-        }
-        var exp = undefined;
-        if (minSec) {
-          exp = new Date(); // new Date("December 31, 9998");
-          exp.setTime(exp.getTime() + minSec * 1000);
-        }
-
-        document.cookie = name + '=' + escape(value) + (minSec ? ';expires=' + exp.toGMTString() : '') + ';path=' + path;
-        return true;
-      }
-      return false;
-    },
-    getCookie: function getCookie(name) {
-      var cookieEnabled = navigator.cookieEnabled ? true : false;
-      if (name && cookieEnabled) {
-        var arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
-        if (arr !== null) {
-          return unescape(arr[2]);
-        }
-      }
-      return null;
-    },
-    clearCookie: function clearCookie() {
-      var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-      if (keys) {
-        for (var i = keys.length; i--;) {
-          document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString();
-        }
-      }
-    },
-    removeCookie: function removeCookie(name, path) {
-      var cookieEnabled = navigator.cookieEnabled ? true : false;
-      if (name && cookieEnabled) {
-        var exp = new Date();
-        path = path || '/';
-        exp.setTime(exp.getTime() - 1);
-        var cval = this.getCookie(name);
-        if (cval !== null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString() + ';path=' + path;
-        return true;
-      }
-      return false;
-    },
-    uuid: function uuid() {
-      var s4 = function s4() {
-        return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-      };
-      return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
-  };
+    return listO;
+  }), _defineProperty(_heyUtils, 'saveLocal', function saveLocal(name, value) {
+    if (window.localStorage && JSON && name && value) {
+      if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
+        value = JSON.stringify(value);
+      }
+      window.localStorage[name] = value;
+      return true;
+    }
+    return false;
+  }), _defineProperty(_heyUtils, 'getLocal', function getLocal(name, type) {
+    if (window.localStorage && JSON && name) {
+      var data = window.localStorage[name];
+      if (type && type == 'json' && data !== undefined) {
+        try {
+          return JSON.parse(data);
+        } catch (e) {
+          console.error('取数转换json错误' + e);
+          return '';
+        }
+      } else {
+        return data;
+      }
+    }
+    return null;
+  }), _defineProperty(_heyUtils, 'getLocal2Json', function getLocal2Json(name) {
+    if (window.localStorage && JSON && name) {
+      var data = window.localStorage[name];
+      if (!this.isNull(data)) {
+        try {
+          return JSON.parse(data);
+        } catch (e) {
+          console.error('取数转换json错误' + e);
+          return '';
+        }
+      } else {
+        return data;
+      }
+    }
+    return null;
+  }), _defineProperty(_heyUtils, 'removeLocal', function removeLocal(name) {
+    if (window.localStorage && JSON && name) {
+      window.localStorage[name] = null;
+    }
+    return null;
+  }), _defineProperty(_heyUtils, 'saveCookie', function saveCookie(name, value, minSec, path) {
+    var cookieEnabled = navigator.cookieEnabled ? true : false;
+    if (name && cookieEnabled) {
+      path = path || '/';
+      if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) == 'object') {
+        value = JSON.stringify(value);
+      }
+      var exp = undefined;
+      if (minSec) {
+        exp = new Date(); // new Date("December 31, 9998");
+        exp.setTime(exp.getTime() + minSec * 1000);
+      }
+
+      document.cookie = name + '=' + escape(value) + (minSec ? ';expires=' + exp.toGMTString() : '') + ';path=' + path;
+      return true;
+    }
+    return false;
+  }), _defineProperty(_heyUtils, 'getCookie', function getCookie(name) {
+    var cookieEnabled = navigator.cookieEnabled ? true : false;
+    if (name && cookieEnabled) {
+      var arr = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
+      if (arr !== null) {
+        return unescape(arr[2]);
+      }
+    }
+    return null;
+  }), _defineProperty(_heyUtils, 'clearCookie', function clearCookie() {
+    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+    if (keys) {
+      for (var i = keys.length; i--;) {
+        document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString();
+      }
+    }
+  }), _defineProperty(_heyUtils, 'removeCookie', function removeCookie(name, path) {
+    var cookieEnabled = navigator.cookieEnabled ? true : false;
+    if (name && cookieEnabled) {
+      var exp = new Date();
+      path = path || '/';
+      exp.setTime(exp.getTime() - 1);
+      var cval = this.getCookie(name);
+      if (cval !== null) document.cookie = name + '=' + cval + ';expires=' + exp.toGMTString() + ';path=' + path;
+      return true;
+    }
+    return false;
+  }), _defineProperty(_heyUtils, 'uuid', function uuid() {
+    var s4 = function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    };
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }), _heyUtils);
+  heyUtils.valueForKeypath = heyUtils.getKeyValue;
+  heyUtils.setValueForKeypath = heyUtils.setKeyValue;
   return heyUtils;
 });

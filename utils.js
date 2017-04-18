@@ -106,7 +106,7 @@
             }
             return copyOne;
           },
-          valueForKeypath(obj, keypath) {
+          getKeyValue(obj, keypath) {
             if (!this.isObject(obj)) {
               return null;
             }
@@ -138,7 +138,7 @@
             }
             return value;
           },
-          setValueForKeypath(obj, keypath, value, orignal) {
+          getKeyValue(obj, keypath, value, orignal) {
             if (!this.isObject(obj)) {
               return false;
             }
@@ -318,5 +318,7 @@
       return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
   }
+  heyUtils.valueForKeypath = heyUtils.getKeyValue;
+  heyUtils.setValueForKeypath = heyUtils.setKeyValue;
   return heyUtils;
 }));
