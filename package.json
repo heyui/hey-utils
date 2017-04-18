@@ -1,6 +1,6 @@
 {
   "name": "hey-utils",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "js-utils, js, util",
   "main": "build/utils.js",
   "repository": {

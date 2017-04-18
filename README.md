@@ -40,21 +40,21 @@ Object.freeze的深度实现
 Object.assign的深度实现
 例：<code>utils.copy({a:1});</code>
 
-### valueForKeypath
+### getKeyValue
 获取深度path的对象值
 ```js
-  utils.valueForKeypath({id:{v:'a'},b:2},"id.v");
+  utils.getKeyValue({id:{v:'a'},b:2},"id.v");
   //'a'
-  utils.valueForKeypath({id:{v:['a','b']},b:2},"id.v[1]");
+  utils.getKeyValue({id:{v:['a','b']},b:2},"id.v[1]");
   //'b'
 ```
 
-### setValueForKeypath
+### setKeyValue
 对深度path的对象赋值
 ```js
-  utils.setValueForKeypath({id:{v:1},b:2}, 'id.v', 2);
+  utils.setKeyValue({id:{v:1},b:2}, 'id.v', 2);
   //{id:{v:2},b:2}
-  utils.setValueForKeypath({id:{v:['a','b']},b:2}, "id.v[1]", 'c');
+  utils.setKeyValue({id:{v:['a','b']},b:2}, "id.v[1]", 'c');
   //{id:{v:['a','c']},b:2}
 ```
 
