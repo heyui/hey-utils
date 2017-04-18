@@ -134,11 +134,11 @@
             }
 
             if (array.length > 0) {
-              return this.valueForKeypath(value, array)
+              return this.getKeyValue(value, array)
             }
             return value;
           },
-          getKeyValue(obj, keypath, value, orignal) {
+          setKeyValue(obj, keypath, value, orignal) {
             if (!this.isObject(obj)) {
               return false;
             }
@@ -162,13 +162,13 @@
               children = obj[key];
               if (this.isArray(children) && children.length > index) {
                 if (array.length > 0) {
-                  return this.setValueForKeypath(children[index], array, value, orignal);
+                  return this.setKeyValue(children[index], array, value, orignal);
                 }
                 children[index] = value;
               }
             } else {
               if (array.length > 0) {
-                return this.setValueForKeypath(obj[key], array, value, orignal);
+                return this.setKeyValue(obj[key], array, value, orignal);
               }
               obj[key] = value;
             }
