@@ -163,3 +163,12 @@ Object.assign的深度实现
 
 ## uuid()
 生成唯一值
+
+## getURLParam(path, search)
+获取url参数，例：aa.com?a=1  
+```js
+getURLParam('a', window.location.search)  //1
+```
+
+## getAuthor
+获取author, 配合umock系统
