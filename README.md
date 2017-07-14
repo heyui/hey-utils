@@ -158,6 +158,15 @@ Object.assign的深度实现
 ### clearCookie()
 清除所有cookie
 
+### toSimpleArray(data, key)
+获取对应的key数组
+
+### toggleValue(list, value)
+如果数组存在这个值，则删除，如果没有，则添加
+
+### padLeft(str, size)
+左边填充0
+
 ### removeCookie(name, path)
 删除cookie，path默认为/
 

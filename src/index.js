@@ -55,7 +55,7 @@ const heyUtils = {
         for (name in options) {
           src = target[name];
           copy = options[name];
-          if (target === copy) {
+          if (src === copy) {
             continue;
           }
           if (deep && copy && (this.isPlainObject(copy) || (copyIsArray = this.isArray(copy)))) {
@@ -344,7 +344,7 @@ const heyUtils = {
   getAuthor() {
     const author = this.getURLParam('author', window.location.search) || this.getLocal('window_author');
     if (author) {
-      Utils.saveLocal('window_author', author);
+      this.saveLocal('window_author', author);
     }
     return author;
   }
