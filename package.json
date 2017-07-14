@@ -1,6 +1,6 @@
 {
   "name": "hey-utils",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "js-utils, js, util",
   "main": "build/utils.js",
   "repository": {
@@ -24,7 +24,9 @@
     "url": "https://github.com/heyui/hey-utils/issues"
   },
   "babel": {
-    "presets": ["es2015"]
+    "presets": [
+      "es2015"
+    ]
   },
   "scripts": {
     "build": "babel ./utils.js -d build",
