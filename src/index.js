@@ -258,7 +258,7 @@ const heyUtils = {
     }
     return null;
   },
-  saveCookie(name, value, minSec, path) {
+  saveCookie(name, value, minSec, path, domain) {
     const cookieEnabled = (navigator.cookieEnabled) ? true : false;
     if (name && cookieEnabled) {
       path = path || '/';
@@ -270,8 +270,11 @@ const heyUtils = {
         exp = new Date(); // new Date("December 31, 9998");
         exp.setTime(exp.getTime() + minSec * 1000);
       }
-
-      document.cookie = `${name}=${escape(value)}${minSec?(`;expires=${exp.toGMTString()}`) : ''};path=${path}`;
+      let cookieString = `${name}=${escape(value)}${minSec?(`;expires=${exp.toGMTString()}`) : ''};path=${path}`; 
+      if(domain){
+        cookieString += `domain=${domain}`;
+      }
+      document.cookie = cookieString;
       return true;
     }
     return false;
