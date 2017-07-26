@@ -272,7 +272,7 @@ const heyUtils = {
       }
       let cookieString = `${name}=${escape(value)}${minSec?(`;expires=${exp.toGMTString()}`) : ''};path=${path}`; 
       if(domain){
-        cookieString += `domain=${domain}`;
+        cookieString += `domain=${domain};`;
       }
       document.cookie = cookieString;
       return true;
@@ -289,22 +289,28 @@ const heyUtils = {
     }
     return null;
   },
-  clearCookie() {
+  clearCookie(path, domain) {
     const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+    path = path || '/';
     if (keys) {
       for (let i = keys.length; i--;) {
-        document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+        let cookieString = `${keys[i]}=0;expires=${new Date(0).toUTCString()};path=${path};`;
+        if(domain){
+          cookieString += `domain=${domain};`;
+        }
+        document.cookie = cookieString;
       }
     }
   },
-  removeCookie(name, path) {
+  removeCookie(name, path, domain) {
     const cookieEnabled = (navigator.cookieEnabled) ? true : false;
     if (name && cookieEnabled) {
-      const exp = new Date();
       path = path || '/';
-      exp.setTime(exp.getTime() - 1);
-      const cval = this.getCookie(name);
-      if (cval !== null) document.cookie = `${name}=${cval};expires=${exp.toGMTString()};path=${path}`;
+      let cookieString = `${name}=0;expires=${new Date(0).toUTCString()};path=${path};`;
+      if(domain){
+        cookieString += `domain=${domain};`;
+      }
+      if (cval !== null) document.cookie = cookieString;
       return true;
     }
     return false;
