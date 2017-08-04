@@ -149,14 +149,17 @@ Object.assign的深度实现
 ### removeLocal(name)
 删除本地localStorage。
 
-### saveCookie(name, value, minSec, path)
+### saveCookie(name, value, domain, path, minSec)
 保存本地cookie，path默认为/，minSec默认无限
 
 ### getCookie(name)
 保存获取cookie
 
-### clearCookie()
+### clearCookie(domain, path)
 清除所有cookie
+
+### removeCookie(name, domain, path)
+删除cookie
 
 ### toSimpleArray(data, key)
 获取对应的key数组
