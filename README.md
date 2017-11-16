@@ -173,13 +173,26 @@ Object.assign的深度实现
 ### removeCookie(name, path)
 删除cookie，path默认为/
 
+### dictMapping({value, dict, connector, keyField='key', titleField='value'})
+
+```js
+let a = [{ title: '选择0', key: 0 }, { title: '选择1', key: 'a1', other: '其他值' }, { title: '选择2', key: 'a2' }, { title: '选择3', key: 'a3' }];
+
+utils.dictMapping({value: 'a1', dict: a, titleField: 'title'})
+//'选择1'
+utils.dictMapping({value: ['a1', 'a2'], dict: a, titleField: 'title'})
+//'选择1, 选择2'
+utils.dictMapping({value: 'a1|a2', dict: a, titleField: 'title', connector: '|'})
+//'选择1, 选择2'
+```
+
 ## uuid()
 生成唯一值
 
 ## getURLParam(path, search)
 获取url参数，例：aa.com?a=1  
 ```js
-getURLParam('a', window.location.search)  //1
+utils.getURLParam('a', window.location.search)  //1
 ```
 
 ## getAuthor

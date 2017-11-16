@@ -1,5 +1,5 @@
 "use strict";
-const heyUtils = {
+const heythis = {
   isObject: function (input) {
     return Object.prototype.toString.call(input) === '[object Object]';
   },
@@ -272,7 +272,7 @@ const heyUtils = {
       } else {
         exp = new Date("9998-01-01");
       }
-      let cookieString = `${name}=${escape(value)}${minSec?(`;expires=${exp.toGMTString()}`) : ''};path=${path}`; 
+      let cookieString = `${name}=${escape(value)}${minSec?(`;expires=${exp.toGMTString()}`) : ''};path=${path};`; 
       if(domain){
         cookieString += `domain=${domain};`;
       }
@@ -312,10 +312,38 @@ const heyUtils = {
       if(domain){
         cookieString += `domain=${domain};`;
       }
-      if (cval !== null) document.cookie = cookieString;
+      document.cookie = cookieString;
       return true;
     }
     return false;
+  },
+  dictMapping({value, dict, connector, keyField='key', titleField='value'}) {
+    if (!dict || this.isNull(value)) return '';
+    if (connector) {
+      value = value.split(connector);
+    }
+    if (!this.isNull(value) && value !== '' && dict) {
+      if (!this.isArray(value)) {
+        value = [value];
+      }
+    }
+    if (value.length <= 0) {
+      return '';
+    }
+
+    if (this.isArray(dict)) {
+      dict = this.toObject(dict, keyField);
+    }
+    return value.map((ele) => {
+      if (this.isObject(ele)) {
+        return ele[titleField];
+      }
+      const d = dict[ele];
+      if (this.isObject(d)) {
+        return d[titleField];
+      }
+      return d;
+    }).filter(ele => (ele && ele !== '')).join(', ');
   },
   uuid() {
     const s4 = ()=>{
@@ -360,7 +388,7 @@ const heyUtils = {
     return author;
   }
 }
-heyUtils.valueForKeypath = heyUtils.getKeyValue;
-heyUtils.setValueForKeypath = heyUtils.setKeyValue;
+heythis.valueForKeypath = heythis.getKeyValue;
+heythis.setValueForKeypath = heythis.setKeyValue;
 
-module.exports = heyUtils;
+module.exports = heythis;
