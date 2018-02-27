@@ -211,7 +211,7 @@ const heythis = {
     return listO;
   },
   saveLocal(name, value) {
-    if (window.localStorage && JSON && name && value) {
+    if (window.localStorage && JSON && name) {
       if (typeof value == 'object') {
         value = JSON.stringify(value);
       }
