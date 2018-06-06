@@ -32,10 +32,12 @@ var expect = require('chai').expect;
     it('add', function () {
       expect(utils.add(0.09999999, 0.00000001)).to.be.deep.equal(0.1);
       expect(utils.add(1.14, 1.101)).to.be.deep.equal(2.241);
+      expect(utils.add(1.14, -1)).to.be.deep.equal(0.14);
     });
     it('sub', function () {
       expect(utils.sub(-0.09999999, 0.00000001)).to.be.deep.equal(-0.1);
       expect(utils.sub(1.14, 1.101)).to.be.deep.equal(0.039);
+      expect(utils.sub(1.14, 1)).to.be.deep.equal(0.14);
     });
     it('mul', function () {
       expect(utils.mul(32.200, 1000)).to.be.deep.equal(32200);
@@ -43,6 +45,7 @@ var expect = require('chai').expect;
     });
     it('div', function () {
       expect(utils.div(0.000001, 0.0001)).to.be.deep.equal(0.01);
+      expect(utils.div(32209.99, 1000)).to.be.deep.equal(32.20999);
     });
   });
 
