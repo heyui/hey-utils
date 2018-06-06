@@ -1,6 +1,6 @@
 {
   "name": "hey-utils",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "js-utils, js, util",
   "main": "build/utils.js",
   "repository": {
@@ -29,7 +29,7 @@
     ]
   },
   "scripts": {
-    "build": "babel ./utils.js -d build",
+    "build": "hey build",
     "min": "babel build/utils.js --minified --no-babelrc -o build/utils.min.js",
     "test": "mocha --compilers js:babel-core/register ./test/*.js"
   },
