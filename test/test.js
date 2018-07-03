@@ -44,6 +44,7 @@ var expect = require('chai').expect;
       expect(utils.mul(0.012345, 0.1)).to.be.deep.equal(0.0012345);
     });
     it('div', function () {
+      expect(utils.div(193.3, 10)).to.be.deep.equal(19.33);
       expect(utils.div(0.000001, 0.0001)).to.be.deep.equal(0.01);
       expect(utils.div(32209.99, 1000)).to.be.deep.equal(32.20999);
     });
