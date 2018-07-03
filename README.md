@@ -13,6 +13,21 @@
 ### isPlainObject  
 
 
+## 数值计算
+替换js数学计算中产生的错误，比如：0.09999999 + 0.00000001
+
+### add(arg1, arg2)
+加法
+
+### sub(arg1, arg2)
+减法
+
+### mul(arg1, arg2)
+乘法
+
+### div(arg1, arg2)
+除法
+
 ## 对象复制，合并，赋值
 
 ### extend  
