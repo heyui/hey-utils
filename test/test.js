@@ -14,6 +14,14 @@ var expect = require('chai').expect;
       });
     });
   });
+
+  describe('toggleValue', function () {
+    it('toggleValue', function () {
+      let a = [0, 4];
+      utils.toggleValue(a, '0')
+      expect(a).to.be.deep.equal([4]);
+    });
+  });
   
   describe('dictMapping', function () {
     let a = [{ title: '选择0', key: 0 }, { title: '选择1', key: 'a1', other: '其他值' }, { title: '选择2', key: 'a2' }, { title: '选择3', key: 'a3' }];

@@ -357,8 +357,9 @@ const heythis = {
   },
   toggleValue(list, value) {
     if (!this.isArray(list)) return [value];
-    if (list.some(item => item == value)) {
-      list.splice(list.indexOf(value), 1);
+    let filters = list.filter(item=>item == value);
+    if (filters.length > 0) {
+      list.splice(list.indexOf(filters[0]), 1);
     } else {
       list.push(value);
     }
