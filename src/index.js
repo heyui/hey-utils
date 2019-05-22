@@ -223,7 +223,7 @@ const heythis = {
   getLocal(name, type) {
     if (window.localStorage && JSON && name) {
       const data = window.localStorage.getItem(name);
-      if (type && type == 'json' && data !== undefined) {
+      if (type && type == 'json' && !this.isNull(data)) {
         try {
           return JSON.parse(data);
         } catch (e) {
@@ -237,20 +237,7 @@ const heythis = {
     return null;
   },
   getLocal2Json(name) {
-    if (window.localStorage && JSON && name) {
-      const data = window.localStorage.getItem(name);
-      if (!this.isNull(data)) {
-        try {
-          return JSON.parse(data);
-        } catch (e) {
-          console.error(`取数转换json错误${e}`);
-          return '';
-        }
-      } else {
-        return data;
-      }
-    }
-    return null;
+    this.getLocal(name, 'json')
   },
   removeLocal(name) {
     if (window.localStorage && JSON && name) {
