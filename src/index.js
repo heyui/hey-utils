@@ -215,14 +215,14 @@ const heythis = {
       if (typeof value == 'object') {
         value = JSON.stringify(value);
       }
-      window.localStorage[name] = value;
+      window.localStorage.setItem(name, value);
       return true;
     }
     return false;
   },
   getLocal(name, type) {
     if (window.localStorage && JSON && name) {
-      const data = window.localStorage[name];
+      const data = window.localStorage.getItem(name);
       if (type && type == 'json' && data !== undefined) {
         try {
           return JSON.parse(data);
@@ -238,7 +238,7 @@ const heythis = {
   },
   getLocal2Json(name) {
     if (window.localStorage && JSON && name) {
-      const data = window.localStorage[name];
+      const data = window.localStorage.getItem(name);
       if (!this.isNull(data)) {
         try {
           return JSON.parse(data);
@@ -254,7 +254,7 @@ const heythis = {
   },
   removeLocal(name) {
     if (window.localStorage && JSON && name) {
-      window.localStorage[name] = null;
+      window.localStorage.removeItem(name);
     }
     return null;
   },
