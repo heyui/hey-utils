@@ -1,6 +1,6 @@
 {
   "name": "hey-utils",
-  "version": "1.0.1-alpha.1",
+  "version": "1.0.1-alpha.2",
   "description": "js-utils, js, util",
   "main": "build/utils.js",
   "repository": {
@@ -15,10 +15,6 @@
     "name": "alias"
   },
   "license": "The MIT License",
-  "_npmUser": {
-    "name": "vvpvvp",
-    "email": "alias8516@sina.com.cn"
-  },
   "dependencies": {},
   "bugs": {
     "url": "https://github.com/heyui/hey-utils/issues"
@@ -26,8 +22,13 @@
   "scripts": {
     "build": "hey build",
     "min": "babel build/utils.js --minified --no-babelrc -o build/utils.min.js",
-    "test": "mocha --compilers js:babel-core/register ./test/*.js"
+    "test": "mocha --require esm ./test/*.js"
   },
   "homepage": "https://github.com/heyui/hey-utils#readme",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "esm": "^3.2.25",
+    "mocha": "^6.1.4"
+  }
 }

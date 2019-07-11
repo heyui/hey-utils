@@ -1,4 +1,4 @@
-var utils = require('../src/index');
+import utils from '../src/index';
 var expect = require('chai').expect;
 (function () {
   'use strict';

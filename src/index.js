@@ -1,5 +1,4 @@
-
-const heythis = {
+const utils = {
   isObject: function (input) {
     return Object.prototype.toString.call(input) === '[object Object]';
   },
@@ -407,7 +406,7 @@ const heythis = {
     return this.mul((r1 / r2) , Math.pow(10, t2 - t1));
   }
 }
-heythis.valueForKeypath = heythis.getKeyValue;
-heythis.setValueForKeypath = heythis.setKeyValue;
+utils.valueForKeypath = utils.getKeyValue;
+utils.setValueForKeypath = utils.setKeyValue;
 
-export default heythis;
+export default utils;
