@@ -236,7 +236,7 @@ const utils = {
     return null;
   },
   getLocal2Json(name) {
-    this.getLocal(name, 'json')
+    return this.getLocal(name, 'json');
   },
   removeLocal(name) {
     if (window.localStorage && JSON && name) {
